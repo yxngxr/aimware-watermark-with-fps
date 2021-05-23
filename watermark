@@ -1,0 +1,54 @@
+local font = draw.CreateFont('munro', 13);
+
+callbacks.Register("Draw", function()
+    if (watermark:GetValue() ~= true) then
+        return
+    end
+    local lp = entities.GetLocalPlayer();
+    local playerResources = entities.GetPlayerResources();
+
+
+    local divider = ' ';
+    local cheatName = '';
+	local indexlp = client.GetLocalPlayerIndex()
+    local userName = client.GetPlayerNameByIndex(indexlp);
+
+    
+	local fps = 'fps  ';
+  
+local frame_rate = 0/10
+local get_abs_fps = function()
+    frame_rate = 0.9 * frame_rate + (1.0 - 0.9) * globals.AbsoluteFrameTime()
+    return math.floor((1 / frame_rate))
+end
+ 
+    if (lp ~= nil) then
+        delay = 'delay: ' .. playerResources:GetPropInt("m_iPing", lp:GetIndex()) .. 'ms';
+        tick = math.floor(lp:GetProp("localdata", "m_nTickBase") + 0x20) .. 'tick';
+    end
+    local watermarkText = cheatName .. divider .. userName .. divider;
+    if (cheatName ~= nil) then
+    end 
+    watermarkText = watermarkText .. fps;
+    draw.SetFont(font);
+    local w, h = draw.GetTextSize(watermarkText);
+    local weightPadding, heightPadding = 8, 8;
+    local watermarkWidth = weightPadding + w;
+    local start_x, start_y = draw.GetScreenSize();
+    start_x, start_y = start_x - watermarkWidth - 19, start_y * 0.0150;
+	draw.Color(0, 0, 0, 120);
+    draw.FilledRect(start_x-20, start_y, start_x + watermarkWidth , start_y + h + heightPadding);
+    draw.Color(230, 199, 240, 230);
+    draw.Text(start_x + weightPadding / 2-24, start_y + heightPadding / 29 + 4, watermarkText .. get_abs_fps()/10)
+	draw.Color(230, 199, 240 ,230);
+	draw.FilledRect(start_x-20, start_y, start_x + watermarkWidth , start_y +2);
+end)
+
+------------------------------------------------------------
+--DrawUI
+------------------------------------------------------------
+function DrawUI()
+	watermark = gui.Checkbox(gui.Reference("Misc","General","Extra"),"watermark","Show Watermark",0);
+	watermark:SetDescription("Shows watermark AIMWARE.net.");
+end
+DrawUI();
