@@ -43,10 +43,7 @@ end
 	draw.Color(230, 199, 240 ,230);
 	draw.FilledRect(start_x-20, start_y, start_x + watermarkWidth , start_y +2);
 end)
-
-------------------------------------------------------------
 --DrawUI
-------------------------------------------------------------
 function DrawUI()
 	watermark = gui.Checkbox(gui.Reference("Misc","General","Extra"),"watermark","Show Watermark",0);
 	watermark:SetDescription("Shows watermark AIMWARE.net.");
